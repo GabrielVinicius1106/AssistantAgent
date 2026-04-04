@@ -1,0 +1,12 @@
+{
+  "name": "lynq",
+  "version": "1.0.0",
+  "description": "An AI Agent App that Integrates with Notion and Google Calendar",
+  "license": "ISC",
+  "author": "Gabriel Vinícius da Cruz",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
