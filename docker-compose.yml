@@ -5,24 +5,14 @@ services: # Serviços Necessários
     image: postgres:15-alpine
     container_name: lynq-postgres
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: lynq-db
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=lynq-db
     ports:
       - "5432:5432"
-    restart: unless-stopped
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
 
-  redis: # Configura a Imagem do REDISj
+  redis: # Configura a Imagem do REDIS
     image: redis:7-alpine
     container_name: lynq-redis
     ports:
-      - "6379:6479"
-    restart: unless-stopped
-    volumes: 
-      - redis_data:/data
-  
-volumes:
-  postgres_data:
-  redis_data:
+      - "6379:6379"
