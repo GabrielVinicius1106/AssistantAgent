@@ -22,9 +22,10 @@ model RefreshToken {
   token      String   @unique
   created_at DateTime @default(now())
   expires_at DateTime
-  deleted    Boolean  @default(false)
+  revoked    Boolean  @default(false) // Token Revogado
 
-  user User @relation(fields: [user_id], references: [id])
+  // onDelete: Cascade => Exclui TODOS OS REFRESH TOKENS relacionados ao USER/
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   user_id String
 

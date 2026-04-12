@@ -1,7 +1,8 @@
-import { Prisma, User } from "@/generated/prisma/client.js";
+import { CreateUserInput } from "@/interfaces/CreateUser.js";
+import { User } from "@/interfaces/entities/User.js";
 
 export interface UserRepositoryInterface {
+    create(data: CreateUserInput): Promise<User>
     findByEmail(email: string): Promise<User | null>
-    create(data: Prisma.UserCreateInput): Promise<User>
     findById(id: string): Promise<User | null>
 }
