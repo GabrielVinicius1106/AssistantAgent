@@ -8,10 +8,25 @@ datasource db {
 }
 
 model User {
-  id            String  @id @default(uuid())
-  email         String  @unique
-  name          String?
-  password_hash String // Hashing Password
+  id             String         @id @default(uuid())
+  email          String         @unique
+  name           String?
+  password_hash  String // Hashing Password
+  refresh_tokens RefreshToken[]
 
   @@map("users")
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  created_at DateTime @default(now())
+  expires_at DateTime
+  deleted    Boolean  @default(false)
+
+  user User @relation(fields: [user_id], references: [id])
+
+  user_id String
+
+  @@map("refresh_tokens")
 }
