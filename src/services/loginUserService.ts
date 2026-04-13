@@ -5,17 +5,14 @@ import { InvalidCredentialsError } from "./errors/InvalidCredentialsError.js"
 import { env } from "@/env/index.js"
 import { RefreshTokensRepositoryInterface } from "@/repositories/RefreshTokensRepositoryInterface.js"
 import { randomBytes } from "node:crypto"
-
-interface LoginUserRequest {
-    email: string
-    password: string
-}
+import { LoginUserInput } from "@/interfaces/LoginUser.js"
+import { generateTokens } from "@/lib/generateTokens.js"
 
 export class LoginUserService {
 
     constructor(private usersRepository: UserRepositoryInterface, private refreshTokensRepository: RefreshTokensRepositoryInterface){}
 
-    async execute({ email, password }: LoginUserRequest){
+    async execute({ email, password }: LoginUserInput){
             
         const user = await this.usersRepository.findByEmail(email)
         
@@ -29,27 +26,18 @@ export class LoginUserService {
         // Senha INVÁLIDA
         if(!validPassword) throw new InvalidCredentialsError()
         
-        const payload = {
-            user_id
-        }
-
-        const token = jwt.sign(payload, env.JWT_SECRET, { expiresIn: "15min" })
-
-        const refresh_token_string = randomBytes(32).toString("hex")
-
-        const expires_at = new Date()
-        expires_at.setDate(expires_at.getDate() + 30) // Validade de 30 Dias para o Refresh Token
+        const { access_token, refresh_token, expires_at } = generateTokens(user_id, env.JWT_SECRET) 
 
         // Criar Refresh Token
         await this.refreshTokensRepository.create({
+            token: refresh_token,    
             user_id,
-            expires_at,
-            token: refresh_token_string    
+            expires_at
         })
 
         return {
-            access_token: token,
-            refresh_token: refresh_token_string
+            access_token,
+            refresh_token
         }
         
     }

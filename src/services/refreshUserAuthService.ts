@@ -9,6 +9,7 @@ import { TokenRevokedError } from "./errors/TokenRevokedError.js";
 import jwt from "jsonwebtoken"
 import { randomBytes } from "node:crypto";
 import { env } from "@/env/index.js";
+import { generateTokens } from "@/lib/generateTokens.js";
 
 export class RefreshUserAuthService {
 
@@ -16,24 +17,24 @@ export class RefreshUserAuthService {
 
     async execute({ token }: RefreshTokenInput){
 
-        const refresh_token = await this.refreshTokensRepository.findByToken(token)
+        const refresh_token_response = await this.refreshTokensRepository.findByToken(token)
 
         // Refresh Token INVÁLIDO 
-        if(!refresh_token) throw new UnauthorizedError()
+        if(!refresh_token_response) throw new UnauthorizedError()
 
-        const date = refresh_token.expires_at;
+        const date = refresh_token_response.expires_at;
 
         // Refresh Token EXPIRADO
         if(date < new Date()) throw new TokenExpiredError()
 
         // Refresh Token REVOGADO
-        if(refresh_token.revoked) throw new TokenRevokedError()
+        if(refresh_token_response.revoked) throw new TokenRevokedError()
 
-        const user_id = refresh_token.user_id
+        const user_id = refresh_token_response.user_id
 
         
         // Revogar TOKEN ANTIGO
-        const token_id = refresh_token.id
+        const token_id = refresh_token_response.id
         
         await this.refreshTokensRepository.delete(token_id)
 
@@ -41,23 +42,18 @@ export class RefreshUserAuthService {
             user_id
         }
 
-        const new_token = jwt.sign(payload, env.JWT_SECRET, { expiresIn: "15min" })
-
-        const refresh_token_string = randomBytes(32).toString("hex")
-
-        const expires_at = new Date()
-        expires_at.setDate(expires_at.getDate() + 30) // Validade de 30 Dias para o Refresh Token
+        const { access_token, refresh_token, expires_at } = generateTokens(user_id, env.JWT_SECRET)
 
         // Criar Refresh Token
         await this.refreshTokensRepository.create({
             user_id,
             expires_at,
-            token: refresh_token_string    
+            token: refresh_token    
         })
 
         return {
-            access_token: new_token,
-            refresh_token: refresh_token_string
+            access_token,
+            refresh_token
         }
 
     }
