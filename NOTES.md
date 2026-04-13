@@ -35,5 +35,37 @@ import { jwt } from "jsonwebtoken"
 
 const token = jwt.sign(<payload>, <JWT_SECRET>, <expires_in>)
 
-<!-- [ ] Estudar JWT e Authentication -->
+## Idempotência
 
+- Propriedade de APIs RESTful onde para determinado RECURSO, 1 ou 100 REQUISIÇÕES produzem o MESMO EFEITO.  
+
+
+## Global Error Handler
+
+- *Global Error Handler*
+- app.setErrorHandler((error, _, res: FastifyReply) => {
+
+    if(error instanceof ZodError){
+        return res.status(400).send({
+            message: "Validation Error.",
+            issues: z.treeifyError(error)
+        })
+    }
+
+    if(env.NODE_ENV != "development"){
+        console.log(error);
+    } else {
+        // SOME TOOLING to WATCH THE ERRORS in PRODUCTION
+    }
+
+    return res.status(500).send({
+        message: "Internal Server Error."
+    })
+
+
+ })
+
+
+## Redis
+
+- Aplicação para Sistemas de Cache

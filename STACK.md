@@ -9,16 +9,18 @@
 - *BullMQ*: 
 - *Containerization* with *Docker*
 - *UI/UX* : NextJS
-- *Google Calendar* and *Notion* APIs
+- *Google Calendar* API
 
 ## Tools and Lybraries
 
-- **Fastify**
-- **Typescript**
-- **Prisma ORM**
-- **Docker**
-- **PostgreSQL**
+- **Fastify** API
+- **Typescript** Language
+- **Prisma ORM** Database Queries
+- **Docker** DevOps 
+- **PostgreSQL** Database
+- **Redis** Cache / BlackList
 
-- **zod**
-- **bcryptjs**
+- **zod** Validation
+- **bcryptjs** Hashing
+- **jsonwebtoken** JWT Auth
 

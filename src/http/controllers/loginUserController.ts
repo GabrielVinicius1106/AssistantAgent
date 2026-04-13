@@ -15,7 +15,12 @@ async function loginUserController(req: FastifyRequest, res: FastifyReply){
         const refreshTokensRepository = new DatabaseRefreshTokensRepository()
         const loginUserService = new LoginUserService(usersRepository, refreshTokensRepository)
 
-        return await loginUserService.execute({ email, password })
+        const { access_token, refresh_token } = await loginUserService.execute({ email, password })
+
+        return res.status(200).send({
+            access_token,
+            refresh_token
+        })
 
     } catch(error){
 

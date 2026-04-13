@@ -15,7 +15,12 @@ async function refreshUserAuthController(req: FastifyRequest, res: FastifyReply)
         const refreshTokensRepository = new DatabaseRefreshTokensRepository()
         const loginUserService = new RefreshUserAuthService(refreshTokensRepository)
 
-        await loginUserService.execute({ token })
+        const { access_token, refresh_token } = await loginUserService.execute({ token })
+
+        return res.status(200).send({
+            access_token,
+            refresh_token
+        })
 
     } catch(error){
 
@@ -48,8 +53,6 @@ async function refreshUserAuthController(req: FastifyRequest, res: FastifyReply)
                 }
              })
         }
-
-
 
         // Faz com que a CAMADA ACIMA LIDE com este ERRO
         throw error
