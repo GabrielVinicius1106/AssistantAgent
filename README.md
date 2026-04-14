@@ -7,7 +7,6 @@ An intelligent, autonomous agent designed to act as a personal productivity assi
 * **Natural Language to Action:** Converts conversational text into structured API calls using LLM Function Calling.
 * **Autonomous Execution:** Seamlessly creates Calendar events and database entries without manual UI interaction.
 * **Context-Aware Memory:** Utilizes Retrieval-Augmented Generation (RAG) and Vector Databases to remember past user interactions and maintain conversational context.
-* **Asynchronous Processing:** Powered by message brokers to handle third-party API latency and rate limits gracefully.
 
 ## Tech Stack
 * **Database & Memory:** PostgreSQL (with `pgvector` for semantic search)
