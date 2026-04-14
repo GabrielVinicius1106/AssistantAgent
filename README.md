@@ -1,4 +1,4 @@
-# 🧠 AIssistant Agent - AI Assistent Agent 
+# 🧠 AI Assistant Agent 
 
 ## Overview
 An intelligent, autonomous agent designed to act as a personal productivity assistant. By processing natural language inputs, the system interprets intent, formats data, and executes actions across third-party ecosystems, starting with **Google Calendar** (events/reminders) and Integrated creation of Notes / Tasks.
