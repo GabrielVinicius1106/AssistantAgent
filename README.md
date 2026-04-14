@@ -11,7 +11,7 @@ An intelligent, autonomous agent designed to act as a personal productivity assi
 
 ## Tech Stack
 * **Database & Memory:** PostgreSQL (with `pgvector` for semantic search)
-* **Cache & Message Broker:** Redis
-* **AI Engine:** Foundation Models via API (Ollama)
+* **Cache & Black List:** Redis
+* **AI Engine:** Foundation Models via API (Ollama / Gemini)
 * **Infrastructure:** Docker & Docker Compose
 * **Integrations:** OAuth 2.0, Google Calendar API
