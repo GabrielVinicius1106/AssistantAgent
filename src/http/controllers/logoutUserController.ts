@@ -1,20 +1,20 @@
 import { DatabaseRefreshTokensRepository } from "@/repositories/database/DatabaseRefreshTokensRepository.js"
-import { DatabaseUsersRepository } from "@/repositories/database/DatabaseUsersRepository.js"
 import { logoutUserBodySchema } from "@/schemas/logoutUserBodySchema.js"
+import { logoutUserHeaderSchema } from "@/schemas/logoutUserHeaderSchema.js"
 import { LogoutUserService } from "@/services/logoutUserService.js"
 import { FastifyReply, FastifyRequest } from "fastify"
 
 async function logoutUserController(req: FastifyRequest, res: FastifyReply){
     
-    const { token } = logoutUserBodySchema.parse(req.body)
+    const { access_token } = logoutUserHeaderSchema.parse(req.headers)
+    const { refresh_token } = logoutUserBodySchema.parse(req.body)
 
     try {
 
-        const usersRepository = new DatabaseUsersRepository()
         const refreshTokensRepository = new DatabaseRefreshTokensRepository()
         const loginUserService = new LogoutUserService(refreshTokensRepository)
 
-        await loginUserService.execute({ token })
+        await loginUserService.execute({ access_token, refresh_token })
 
     } catch(error){
 

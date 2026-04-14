@@ -1,9 +1,10 @@
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
-import { appRoutes } from "./http/routes.js";
+import { publicRoutes, privateRoutes } from "./http/routes.js";
 
 const server = fastify()
 
-server.register(appRoutes)
+server.register(publicRoutes)
+server.register(privateRoutes)
 
 // GET Hello World :)
 server.get('/api', (req: FastifyRequest, res: FastifyReply) => {

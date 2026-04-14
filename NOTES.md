@@ -68,4 +68,50 @@ const token = jwt.sign(<payload>, <JWT_SECRET>, <expires_in>)
 
 ## Redis
 
-- Aplicação para Sistemas de Cache
+- **Remote Dictionary Server** = **REDIS**
+
+- Armazenamento de Estrutura de Dados em Memória RAM
+    > Banco de Dados
+    > Cache
+    > Message Broker
+    > Black List
+    > etc.
+
+
+- *Básico*: <Chave:Valor>
+
+- Permite MAIS ESTRUTURAS: <listas>, <hashes>, <dados_geospaciais>
+
+- Para Conexão, utilizamos a BIBLIOTECA **redis**
+
+- **CreateClient:**
+
+- *Conecta na PORTA 6379*
+
+import { createClient } from "redis"
+
+const client = await createClient().on("error", (error) => console.log(error)).connect()
+
+export client
+
+### Black List
+
+- **Logout:**
+
+-   1. O Servidor recebe o Access Token
+
+-   2. Cálculo do Tempo de Vida *Quanto tempo o token deve ser mantido na Black List?*
+
+-   3. Salvar no Redis
+
+- TODA Requisição passa por um *Middleware*, que valida se o Access Token está na Black List
+
+- Se o Access Token estiver na Black List => *Error 401 Unauthorized*
+
+- Para Acessar os HEADERS da Requisição:
+
+-    *const headers = req.headers*
+
+- *Busca na Black List*
+
+if(await redis.get(access_token)) return res.status(401).send({ message: "Unauthorized." })

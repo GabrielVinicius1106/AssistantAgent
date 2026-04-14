@@ -1,10 +1,8 @@
-import { compare, hash } from "bcryptjs"
-import jwt from "jsonwebtoken"
+import { compare } from "bcryptjs"
 import { UserRepositoryInterface } from "@/repositories/UsersRepositoryInterface.js"
 import { InvalidCredentialsError } from "./errors/InvalidCredentialsError.js"
 import { env } from "@/env/index.js"
 import { RefreshTokensRepositoryInterface } from "@/repositories/RefreshTokensRepositoryInterface.js"
-import { randomBytes } from "node:crypto"
 import { LoginUserInput } from "@/interfaces/LoginUser.js"
 import { generateTokens } from "@/lib/generateTokens.js"
 

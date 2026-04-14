@@ -17,7 +17,7 @@ app.setErrorHandler((error, _, res: FastifyReply) => {
         })
     }
 
-    if(env.NODE_ENV != "development"){
+    if(env.NODE_ENV != "production"){
         console.log(error);
     } else {
         // SOME TOOLING to WATCH THE ERRORS in PRODUCTION
