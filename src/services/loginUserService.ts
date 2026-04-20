@@ -1,16 +1,21 @@
 import { compare } from "bcryptjs"
-import { UserRepositoryInterface } from "@/repositories/UsersRepositoryInterface.js"
+import { UsersRepositoryInterface } from "@/repositories/UsersRepositoryInterface.js"
 import { InvalidCredentialsError } from "./errors/InvalidCredentialsError.js"
 import { env } from "@/env/index.js"
 import { RefreshTokensRepositoryInterface } from "@/repositories/RefreshTokensRepositoryInterface.js"
 import { LoginUserInput } from "@/interfaces/LoginUser.js"
 import { generateTokens } from "@/lib/generateTokens.js"
 
+interface LoginUserRequest {
+    email: string
+    password: string
+}
+
 export class LoginUserService {
 
-    constructor(private usersRepository: UserRepositoryInterface, private refreshTokensRepository: RefreshTokensRepositoryInterface){}
+    constructor(private usersRepository: UsersRepositoryInterface, private refreshTokensRepository: RefreshTokensRepositoryInterface){}
 
-    async execute({ email, password }: LoginUserInput){
+    async execute({ email, password }: LoginUserRequest){
             
         const user = await this.usersRepository.findByEmail(email)
         

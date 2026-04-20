@@ -1,9 +1,9 @@
 import { CreateUserInput } from "@/interfaces/CreateUser.js";
-import { UserRepositoryInterface } from "../UsersRepositoryInterface.js";
+import { UsersRepositoryInterface } from "../UsersRepositoryInterface.js";
 import { prisma } from "@/lib/prisma.js";
 import { User } from "@/generated/prisma/index.js";
 
-export class DatabaseUsersRepository implements UserRepositoryInterface {    
+export class DatabaseUsersRepository implements UsersRepositoryInterface {    
     
     async create(data: CreateUserInput){
         

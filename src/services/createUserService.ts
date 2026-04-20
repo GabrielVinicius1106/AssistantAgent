@@ -1,9 +1,9 @@
 import { hash } from "bcryptjs"
-import { UserRepositoryInterface } from "@/repositories/UsersRepositoryInterface.js"
+import { UsersRepositoryInterface } from "@/repositories/UsersRepositoryInterface.js"
 import { UserAlreadyExistsError } from "./errors/UserAlreadyExistsError.js"
 import { InvalidPasswordLengthError } from "./errors/InvalidPasswordLengthError.js"
 
-interface CreateUserRequest {
+export interface CreateUserRequest {
     name: string
     email: string
     password: string
@@ -11,13 +11,14 @@ interface CreateUserRequest {
 
 export class CreateUserService {
 
-    constructor(private usersRepository: UserRepositoryInterface){}
+    constructor(private usersRepository: UsersRepositoryInterface){}
 
     async execute({ name, email, password }: CreateUserRequest){
 
-        if(password.length < 6) throw new InvalidPasswordLengthError()
-        
-        const password_hash = await hash(password, 12)
+        if(password.length < 8) throw new InvalidPasswordLengthError()
+            
+        // Create a Hashed Password with a COST FACTOR of 6. 12 for PRODUCTION.
+        const password_hash = await hash(password, 6)
     
         const userWithSameEmail = await this.usersRepository.findByEmail(email)
     
@@ -28,5 +29,7 @@ export class CreateUserService {
             email,
             password_hash
         })
+
+        return user
     }
 }
