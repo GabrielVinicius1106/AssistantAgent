@@ -17,7 +17,7 @@ export class CreateUserService {
 
         if(password.length < 6) throw new InvalidPasswordLengthError()
         
-        const password_hash = await hash(password, 6)
+        const password_hash = await hash(password, 12)
     
         const userWithSameEmail = await this.usersRepository.findByEmail(email)
     
