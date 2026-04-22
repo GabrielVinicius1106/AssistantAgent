@@ -92,7 +92,7 @@ import { createClient } from "redis"
 
 const client = await createClient().on("error", (error) => console.log(error)).connect()
 
-export client
+export { client }
 
 ### Black List
 
@@ -115,3 +115,9 @@ export client
 - *Busca na Black List*
 
 if(await redis.get(access_token)) return res.status(401).send({ message: "Unauthorized." })
+
+## ===========================================================================
+
+- O Método *.forEach()* executa uma função de CALLBACK para CADA ELEMENTO de um VETOR. 
+
+- Não RETORNA UM NOVO VETOR.

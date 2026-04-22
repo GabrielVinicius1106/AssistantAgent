@@ -15,7 +15,7 @@ describe("Create User Tests", () => {
 
         const data: CreateUserRequest = {
             name: "John Doe",
-            email: "gabriel@email.com",
+            email: "johndoe@gmail.com",
             password: "1234567"
         }
 
@@ -32,7 +32,7 @@ describe("Create User Tests", () => {
 
         const data: CreateUserRequest = {
             name: "John Doe",
-            email: "gabriel@email.com",
+            email: "johndoe@gmail.com",
             password: "12345678"
         }
 
@@ -51,7 +51,7 @@ describe("Create User Tests", () => {
 
         const data: CreateUserRequest = {
             name: "John Doe",
-            email: "gabriel@email.com",
+            email: "johndoe@gmail.com",
             password: "12345678"
         }
         
@@ -70,7 +70,7 @@ describe("Create User Tests", () => {
 
         const data: CreateUserRequest = {
             name: "John Doe",
-            email: "gabriel@email.com",
+            email: "johndoe@gmail.com",
             password: "12345678"
         }
 

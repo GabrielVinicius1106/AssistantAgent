@@ -7,6 +7,13 @@ import { prisma } from "@/lib/prisma.js";
 
 export class DatabaseRefreshTokensRepository implements RefreshTokensRepositoryInterface {
     
+    async create(data: CreateRefreshTokenInput): Promise<RefreshToken> {
+
+        const token = await prisma.refreshToken.create({ data })
+
+        return token
+    }
+
     async delete(token_id: string): Promise<void> {
         
         await prisma.refreshToken.delete({
@@ -52,13 +59,6 @@ export class DatabaseRefreshTokensRepository implements RefreshTokensRepositoryI
 
         return refresh_token
 
-    }
-    
-    async create(data: CreateRefreshTokenInput): Promise<RefreshToken> {
-
-        const token = await prisma.refreshToken.create({ data })
-
-        return token
     }   
 
 }
