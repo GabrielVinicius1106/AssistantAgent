@@ -1,5 +1,4 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import cookie from "@fastify/cookie"
 
 import { createUserController } from "./controllers/createUserController.js";
 import { loginUserController } from "./controllers/loginUserController.js";
@@ -10,6 +9,7 @@ import jwt from "jsonwebtoken"
 import { env } from "@/env/index.js";
 import { getAccessToken } from "@/lib/getAccessToken.js";
 import { redis } from "@/lib/redis.js";
+import { logoutUserFromAllDevicesController } from "./controllers/logoutUserFromAllDevicesController.js";
 
 export async function publicRoutes(app: FastifyInstance){
 
@@ -21,16 +21,6 @@ export async function publicRoutes(app: FastifyInstance){
 }
 
 export async function privateRoutes(app: FastifyInstance){
-    
-    // Set Cookies Fastify's Plugin
-    app.register(cookie, {
-        hook: "onRequest",
-        secret: env.COOKIES_SECRET,
-        parseOptions: {
-            secure: true,
-            sameSite: "strict"
-        }
-    })
 
     // Auth Validation
     app.addHook("preHandler", async (req: FastifyRequest, res: FastifyReply) => {
@@ -59,6 +49,7 @@ export async function privateRoutes(app: FastifyInstance){
 
 
     app.post("/api/v1/auth/logout", logoutUserController) // Private Route
+    app.post("/api/v1/auth/logout-all", logoutUserFromAllDevicesController) // Private Route
     app.get("/api/v1/chats", (req, res) => {
 
         return res.status(200).send({
