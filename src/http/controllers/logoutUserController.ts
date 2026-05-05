@@ -1,24 +1,29 @@
+import { getAccessToken } from "@/lib/getAccessToken.js"
 import { DatabaseRefreshTokensRepository } from "@/repositories/database/DatabaseRefreshTokensRepository.js"
-import { logoutUserBodySchema } from "@/schemas/logoutUserBodySchema.js"
-import { logoutUserHeaderSchema } from "@/schemas/logoutUserHeaderSchema.js"
+import { logoutUserCookiesSchema } from "@/schemas/logoutUserCookiesSchema.js"
 import { LogoutUserService } from "@/services/logoutUserService.js"
 import { FastifyReply, FastifyRequest } from "fastify"
 
 async function logoutUserController(req: FastifyRequest, res: FastifyReply){
     
-    const { access_token } = logoutUserHeaderSchema.parse(req.headers)
-    const { refresh_token } = logoutUserBodySchema.parse(req.body)
+    // Implement Fetch REFRESH TOKEN by Cookies 
+
+    const access_token = getAccessToken(req)!
+
+    const { refresh_token } = logoutUserCookiesSchema.parse(req.cookies)
 
     try {
 
         const refreshTokensRepository = new DatabaseRefreshTokensRepository()
-        const loginUserService = new LogoutUserService(refreshTokensRepository)
+        const logoutUserService = new LogoutUserService(refreshTokensRepository)
 
-        await loginUserService.execute({ access_token, refresh_token })
+        // Remove the COOKIE for the REFRESH TOKEN
+        res.clearCookie("refresh_token")
+
+        await logoutUserService.execute({ access_token, refresh_token })
 
     } catch(error){
 
-        // Faz com que a CAMADA ACIMA LIDE com este ERRO
         throw error
     }
 

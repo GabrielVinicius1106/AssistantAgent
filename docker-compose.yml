@@ -1,5 +1,3 @@
-version: '3.8' # Versão do Docker Compose
-
 services: # Serviços Necessários
   postgres: # Configura uma Imagem do POSTGRESQL
     image: postgres:15-alpine

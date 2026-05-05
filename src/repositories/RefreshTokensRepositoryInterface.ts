@@ -9,6 +9,8 @@ export interface RefreshTokensRepositoryInterface {
     
     revoke(token_id: string): Promise<void>
     revokeAll(user_id: string): Promise<void>
+
+    setExpiresAt(token_id: string, expires_at: Date): Promise<void>
     
     findByToken(refresh_token: string): Promise<RefreshToken | null>
 }

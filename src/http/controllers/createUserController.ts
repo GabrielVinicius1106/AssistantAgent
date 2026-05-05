@@ -30,7 +30,6 @@ async function createUserController(req: FastifyRequest, res: FastifyReply){
             })
         }
 
-        // Faz com que a CAMADA ACIMA LIDE com este ERRO
         throw error
     }
 

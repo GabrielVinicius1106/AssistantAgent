@@ -24,6 +24,15 @@ export class MemoryRefreshTokensRepository implements RefreshTokensRepositoryInt
         return refreshToken
     }
 
+    async setExpiresAt(token_id: string, expires_at: Date): Promise<void> {
+
+        const index = this.refreshTokens.findIndex((token) => token.id === token_id)
+
+        if(index == -1) return
+
+        this.refreshTokens[index]!.expires_at = expires_at
+    }
+
     async delete(token_id: string): Promise<void> {
         
         this.refreshTokens = this.refreshTokens.filter((refreshToken) => refreshToken.id !== token_id )

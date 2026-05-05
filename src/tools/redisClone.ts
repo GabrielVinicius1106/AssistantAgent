@@ -1,9 +1,13 @@
+// A Redis Simplified Implementation
+
 import { RedisInterface, RedisObject, RedisTypes } from "@/tools/interfaces/RedisInterface.js"
+import { date } from "zod"
 
 type miliseconds = number
 
 // Simplified Version of REDIS
-export class Redis implements RedisInterface {
+
+class Redis implements RedisInterface {
 
     private map: Map<RedisTypes, RedisObject>
 
@@ -35,7 +39,7 @@ export class Redis implements RedisInterface {
         if(!res) return null
 
         // If KEY is EXPIRED
-        if(res.expires_at < res.created_at) return null
+        if(res.expires_at < new Date()) return null
 
         return res
     }
@@ -65,7 +69,7 @@ export class Redis implements RedisInterface {
 
         return timeToLive
     }
-}   
+}  
 
 async function main(){
 
@@ -79,6 +83,8 @@ async function main(){
         console.log(redis.TTL(1));
     }, 3000)
 
-}   
+}
 
-main()
+const redisClone = new Redis()
+
+export { redisClone }

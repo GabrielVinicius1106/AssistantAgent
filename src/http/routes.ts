@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import cookie from "@fastify/cookie"
 
 import { createUserController } from "./controllers/createUserController.js";
 import { loginUserController } from "./controllers/loginUserController.js";
@@ -6,7 +7,6 @@ import { refreshUserAuthController } from "./controllers/refreshUserAuthControll
 import { logoutUserController } from "./controllers/logoutUserController.js";
 
 import jwt from "jsonwebtoken"
-import { getAccessTokenHeaderSchema } from "@/schemas/getAccessTokenHeaderSchema.js";
 import { env } from "@/env/index.js";
 import { getAccessToken } from "@/lib/getAccessToken.js";
 import { redis } from "@/lib/redis.js";
@@ -22,6 +22,16 @@ export async function publicRoutes(app: FastifyInstance){
 
 export async function privateRoutes(app: FastifyInstance){
     
+    // Set Cookies Fastify's Plugin
+    app.register(cookie, {
+        hook: "onRequest",
+        secret: env.COOKIES_SECRET,
+        parseOptions: {
+            secure: true,
+            sameSite: "strict"
+        }
+    })
+
     // Auth Validation
     app.addHook("preHandler", async (req: FastifyRequest, res: FastifyReply) => {
 
@@ -38,14 +48,23 @@ export async function privateRoutes(app: FastifyInstance){
             jwt.verify(access_token, env.JWT_SECRET)
 
         } catch(error) {
+
             return res.status(401).send({
                 message: "Unauthorized."
             })
+        
         }
 
     })
 
-    app.post("/api/v1/auth/logout", logoutUserController) // Public Route
 
+    app.post("/api/v1/auth/logout", logoutUserController) // Private Route
+    app.get("/api/v1/chats", (req, res) => {
+
+        return res.status(200).send({
+            message: "All the Chats"
+        })
+
+    })
     
 }

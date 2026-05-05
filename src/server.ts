@@ -7,8 +7,8 @@ server.register(publicRoutes)
 server.register(privateRoutes)
 
 // GET Hello World :)
-server.get('/api', (req: FastifyRequest, res: FastifyReply) => {
-    return res.status(200).send("Hello World :)")
+server.get('/api', (_, res: FastifyReply) => {
+    return res.status(200).send("Hello from Lynq :)")
 })
 
 export { server }

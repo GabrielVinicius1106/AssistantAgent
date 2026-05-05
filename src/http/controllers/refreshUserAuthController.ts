@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { refreshUserAuthBodySchema } from "@/schemas/refreshUserAuthBodySchema.js";
+import { refreshUserAuthCookiesSchema } from "@/schemas/refreshUserAuthCookiesSchema.js";
 import { DatabaseRefreshTokensRepository } from "@/repositories/database/DatabaseRefreshTokensRepository.js";
 import { RefreshUserAuthService } from "@/services/refreshUserAuthService.js";
 import { UnauthorizedError } from "@/services/errors/UnauthorizedError.js";
@@ -8,7 +8,7 @@ import { TokenRevokedError } from "@/services/errors/TokenRevokedError.js";
 
 async function refreshUserAuthController(req: FastifyRequest, res: FastifyReply){
     
-    const { token } = refreshUserAuthBodySchema.parse(req.body)
+    const { token } = refreshUserAuthCookiesSchema.parse(req.cookies)
 
     try {
 
@@ -17,9 +17,13 @@ async function refreshUserAuthController(req: FastifyRequest, res: FastifyReply)
 
         const { access_token, refresh_token } = await loginUserService.execute({ token })
 
+        // Set a COOKIE for the REFRESH TOKEN
+        res.setCookie("refresh_token", refresh_token, {
+            httpOnly: true
+        })
+
         return res.status(200).send({
-            access_token,
-            refresh_token
+            access_token
         })
 
     } catch(error){
@@ -54,7 +58,6 @@ async function refreshUserAuthController(req: FastifyRequest, res: FastifyReply)
              })
         }
 
-        // Faz com que a CAMADA ACIMA LIDE com este ERRO
         throw error
     }
 

@@ -1,6 +1,6 @@
 // Redis Types
 
-export type RedisTypes = string | number | object
+export type RedisTypes = string | number | object | boolean
 
 export interface RedisInterface {   
     

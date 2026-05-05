@@ -1,12 +1,10 @@
-import { CreateUserInput } from "@/interfaces/CreateUser.js"
 import { LoginUserInput } from "@/interfaces/LoginUser.js"
 import { MemoryRefreshTokensRepository } from "@/repositories/memory/MemoryRefreshTokensRepository.js"
 import { MemoryUsersRepository } from "@/repositories/memory/MemoryUsersRepository.js"
 import { CreateUserRequest, CreateUserService } from "@/services/createUserService.js"
 import { InvalidCredentialsError } from "@/services/errors/InvalidCredentialsError.js"
 import { LoginUserService } from "@/services/loginUserService.js"
-import { PassThrough } from "node:stream"
-import { test, describe, expect, beforeEach } from "vitest"
+import { test, describe, expect } from "vitest"
 
 describe("Login User Tests", () => {
 
@@ -84,8 +82,5 @@ describe("Login User Tests", () => {
         expect(response.refresh_token).toStrictEqual(expect.any(String))
 
     })
-
-
-
 
 })

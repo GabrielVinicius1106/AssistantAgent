@@ -1,12 +1,13 @@
 import { GenerateTokensOutput } from "@/interfaces/GenerateTokens.js"
-import { randomBytes } from "node:crypto"
+import { randomBytes, randomUUID } from "node:crypto"
 
 import jwt from "jsonwebtoken"
 
 function generateTokens(user_id: string, secret: string): GenerateTokensOutput {
 
     const payload = {
-        id: user_id
+        sub: user_id,
+        jti: randomUUID()
     }
 
     const access_token = jwt.sign(payload, secret, { expiresIn:"15min" })

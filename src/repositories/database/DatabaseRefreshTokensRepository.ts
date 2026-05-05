@@ -30,6 +30,17 @@ export class DatabaseRefreshTokensRepository implements RefreshTokensRepositoryI
         })
 
     }
+
+    async setExpiresAt(token_id: string, expires_at: Date): Promise<void> {
+    
+    
+        await prisma.refreshToken.update({
+            where: { id: token_id },
+            data: { expires_at }
+        })
+    
+    
+    }
     
 
 

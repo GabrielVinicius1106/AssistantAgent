@@ -1,5 +1,5 @@
 import z from "zod"; 
 
-export const logoutUserBodySchema = z.object({
+export const logoutUserCookiesSchema = z.object({
     refresh_token: z.string()
 })

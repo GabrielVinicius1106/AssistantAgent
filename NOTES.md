@@ -121,3 +121,51 @@ if(await redis.get(access_token)) return res.status(401).send({ message: "Unauth
 - O Método *.forEach()* executa uma função de CALLBACK para CADA ELEMENTO de um VETOR. 
 
 - Não RETORNA UM NOVO VETOR.
+
+## Testing
+
+- Implementar uma Aplicação Redis Like para usar nos TESTES. *Acabei usando o Próprio REDIS mesmo*
+
+
+## Cookies
+
+- Um Cookie é um PEDAÇO DE DADO que o SERVIDOR CRIA NO NAVEGADOR. Utiliza o RESPONSE HEADER: 
+    > *Set-Cookie*
+
+- Cada REQUISIÇÃO do CLIENT para o SERVER é feita UTILIZANDO o HEADER:
+    > *Cookie*
+
+### Flags de Segurança Chaves
+
+- *httpOnly* : <true> => *JS não pode LER* *Bloqueia ATAQUES de XSS*
+
+- *secure* : <true> => *Envia pelo PROTOCOLO HTTPS*
+
+- *sameSite* : <strict> => *Envia APENAS de ORIGEM SEMELHANTE* *Bloqueia ATAQUES de CSRF*
+
+- *path* : </api/v1/auth> => *Cria um ESCOPO de ENVIO para o Cookie*
+
+- *maxAge* : <expires> => *Quanto TEMPO o Navegador ARMAZENA O COOKIE*
+
+## Fastify's Cookies Plugin
+
+- O Fastify não possui SUPORTE NATIVO a Cookies. Instalamos:
+    > *npm install @fastify/cookie*
+
+- E registramos como PLUGIN. **app.register()**
+
+- **Setar um Cookie**:
+    > res.setCookie("refresh_token", value, { options })
+
+- **Ler um Cookie**:
+    > res.cookies.refresh_token
+
+- **Apagar um Cookie**:
+    > res.clearCookie("refresh_token")
+
+
+## Non-Null Assertion
+
+- Operador que GARANTE ao *Typescript* que um ELEMENTO NÃO É NULO.
+
+- const value = getSomething()! => *Garante ao TS que é um RETORNO VÁLIDO*

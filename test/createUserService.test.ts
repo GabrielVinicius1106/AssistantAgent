@@ -2,7 +2,7 @@ import { MemoryUsersRepository } from "@/repositories/memory/MemoryUsersReposito
 import { CreateUserRequest, CreateUserService } from "@/services/createUserService.js"
 import { InvalidPasswordLengthError } from "@/services/errors/InvalidPasswordLengthError.js"
 import { UserAlreadyExistsError } from "@/services/errors/UserAlreadyExistsError.js"
-import { test, describe, expect, beforeEach } from "vitest"
+import { test, describe, expect } from "vitest"
 
 import { compare } from "bcryptjs"
 
@@ -79,8 +79,8 @@ describe("Create User Tests", () => {
         const { id, name, email, password_hash } = user
 
         expect(id).toBeDefined()
-        expect(name).toBeDefined()
-        expect(email).toBeDefined()
+        expect(name).toBe("John Doe")
+        expect(email).toBe("johndoe@gmail.com")
         expect(password_hash).toBeDefined()
 
     })

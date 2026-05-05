@@ -17,9 +17,13 @@ async function loginUserController(req: FastifyRequest, res: FastifyReply){
 
         const { access_token, refresh_token } = await loginUserService.execute({ email, password })
 
+        // Set a COOKIE for the REFRESH TOKEN
+        res.setCookie("refresh_token", refresh_token, {
+            httpOnly: true
+        })
+
         return res.status(200).send({
-            access_token,
-            refresh_token
+            access_token
         })
 
     } catch(error){
@@ -30,7 +34,6 @@ async function loginUserController(req: FastifyRequest, res: FastifyReply){
             })
         }
 
-        // Faz com que a CAMADA ACIMA LIDE com este ERRO
         throw error
     }
 
