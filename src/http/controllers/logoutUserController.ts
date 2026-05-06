@@ -1,16 +1,15 @@
 import { getAccessToken } from "@/lib/getAccessToken.js"
+import { getRefreshToken } from "@/lib/getRefreshToken.js"
 import { DatabaseRefreshTokensRepository } from "@/repositories/database/DatabaseRefreshTokensRepository.js"
-import { logoutUserCookiesSchema } from "@/schemas/logoutUserCookiesSchema.js"
 import { LogoutUserService } from "@/services/logoutUserService.js"
 import { FastifyReply, FastifyRequest } from "fastify"
 
 async function logoutUserController(req: FastifyRequest, res: FastifyReply){
     
-    // Implement Fetch REFRESH TOKEN by Cookies 
+    const access_token = getAccessToken(req)
+    const refresh_token = getRefreshToken(req)
 
-    const access_token = getAccessToken(req)!
-
-    const { refresh_token } = logoutUserCookiesSchema.parse(req.cookies)
+    if(!access_token || !refresh_token) return res.status(401).send({ message: "Unauthorized." })
 
     try {
 

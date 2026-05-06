@@ -5,7 +5,7 @@ import { loginUserController } from "./controllers/loginUserController.js";
 import { refreshUserAuthController } from "./controllers/refreshUserAuthController.js";
 import { logoutUserController } from "./controllers/logoutUserController.js";
 
-import jwt from "jsonwebtoken"
+import jwt, { JwtPayload } from "jsonwebtoken"
 import { env } from "@/env/index.js";
 import { getAccessToken } from "@/lib/getAccessToken.js";
 import { redis } from "@/lib/redis.js";
@@ -22,6 +22,8 @@ export async function publicRoutes(app: FastifyInstance){
 
 export async function privateRoutes(app: FastifyInstance){
 
+    app.decorateRequest("user_id")
+
     // Auth Validation
     app.addHook("preHandler", async (req: FastifyRequest, res: FastifyReply) => {
 
@@ -34,8 +36,14 @@ export async function privateRoutes(app: FastifyInstance){
 
         try {
 
-            // Verify Token 
-            jwt.verify(access_token, env.JWT_SECRET)
+            // Verify Token
+            const decoded = jwt.verify(access_token, env.JWT_SECRET) as JwtPayload            
+
+            const id = decoded.sub
+
+            if(!id) return res.status(401).send("Unauthorized.")
+
+            req.user_id = id
 
         } catch(error) {
 
@@ -47,13 +55,14 @@ export async function privateRoutes(app: FastifyInstance){
 
     })
 
-
     app.post("/api/v1/auth/logout", logoutUserController) // Private Route
     app.post("/api/v1/auth/logout-all", logoutUserFromAllDevicesController) // Private Route
     app.get("/api/v1/chats", (req, res) => {
 
+
+        
         return res.status(200).send({
-            message: "All the Chats"
+            message: "All Chats."
         })
 
     })

@@ -1,4 +1,28 @@
-# 🧠 AI Assistant Agent 
+# 🧠 AI Agent App 
+
+## Stack
+
+- *NodeJS* and *Typescript*
+- *PostgreSQL* and *PG Vector*
+- *Redis*
+- *AI Models*: Open Source Models
+- *BullMQ*: 
+- *Containerization* with *Docker*
+- *UI/UX* : NextJS
+- *Google Calendar* API
+
+## Tools
+
+- **Fastify** API
+- **Typescript** Language
+- **Prisma ORM** Database Queries
+- **Docker** DevOps 
+- **PostgreSQL** Database
+- **Redis** Cache / BlackList
+
+- **zod** Validation
+- **bcryptjs** Hashing
+- **jsonwebtoken** JWT Auth
 
 ## Overview
 An intelligent, autonomous agent designed to act as a personal productivity assistant. By processing natural language inputs, the system interprets intent, formats data, and executes actions across third-party ecosystems, starting with **Google Calendar** (events/reminders) and Integrated creation of Notes / Tasks.

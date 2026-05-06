@@ -1,11 +1,13 @@
-import { getAccessTokenHeaderSchema } from "@/schemas/getAccessTokenHeaderSchema.js";
-import { logoutUserCookiesSchema } from "@/schemas/logoutUserCookiesSchema.js";
+import { getRefreshTokenCookiesSchema } from "@/schemas/getRefreshTokenCookiesSchema.js";
 import { FastifyRequest } from "fastify";
 
 export function getRefreshToken(req: FastifyRequest){
 
-    const { refresh_token } = logoutUserCookiesSchema.parse(req.cookies)
+    const parsedData = getRefreshTokenCookiesSchema.safeParse(req.cookies.refresh_token)
+
+    if(parsedData.success == false) return null
+
+    const refresh_token = parsedData.data
 
     return refresh_token
-
 }

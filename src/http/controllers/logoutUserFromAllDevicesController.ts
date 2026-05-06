@@ -6,11 +6,10 @@ import { FastifyReply, FastifyRequest } from "fastify"
 
 async function logoutUserFromAllDevicesController(req: FastifyRequest, res: FastifyReply){
     
-    // Implement Fetch REFRESH TOKEN by Cookies
-
-    const access_token = getAccessToken(req)!
-
+    const access_token = getAccessToken(req)
     const refresh_token = getRefreshToken(req)
+
+    if(!access_token || !refresh_token) return res.status(401).send({ message: "Unauthorized." })
 
     try {
 

@@ -31,6 +31,10 @@
     > **Payload:** Dados do Usuário
     > **Signature:** Utiliza uma CHAVE SECRETA para APLICAR UM HASH no Header + Payload
 
+- Utilizamos CLAIMS no PAYLOAD, como MÉTODO DE TRANSFERIR INFORMAÇÃO:
+    > Subject (user_id): <sub>
+    > JWT ID           : <jti>
+
 import { jwt } from "jsonwebtoken"
 
 const token = jwt.sign(<payload>, <JWT_SECRET>, <expires_in>)
@@ -169,3 +173,28 @@ if(await redis.get(access_token)) return res.status(401).send({ message: "Unauth
 - Operador que GARANTE ao *Typescript* que um ELEMENTO NÃO É NULO.
 
 - const value = getSomething()! => *Garante ao TS que é um RETORNO VÁLIDO*
+
+## Fastify's Decorators
+
+- Alterar OBJETOS NATIVOS DO FASTIFY.
+
+- Como uma *Instância*, *Requisição* ou *Response*
+
+- Precisamos EXPLICITAR o NOVO TIPO FastifyRequest:
+    declare module "fastify" {
+        interface FastifyRequest {
+            user_id: string *Define o NOVO ATRIBUTO user_id para o Typescript*
+        }
+    }
+
+- No APP: app.decorateRequest("user_id")
+
+- **Example**:
+
+- const decoded = jwt.verify(access_token, env.JWT_SECRET) as JwtPayload            
+
+- const id = decoded.sub
+
+- if(!id) return res.status(401).send("Unauthorized.")
+
+- req.user_id = id

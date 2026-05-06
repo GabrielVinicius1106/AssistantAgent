@@ -7,6 +7,12 @@ import { env } from "./env/index.js";
 
 const server = fastify()
 
+declare module "fastify" {
+    interface FastifyRequest {
+        user_id: string
+    }
+}
+
 // Set Cookies Fastify's Plugin
 server.register(cookie, {
     hook: "onRequest",
